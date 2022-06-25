@@ -129,4 +129,7 @@ dmypy.json
 .pyre/
 
 # PyTorch data
-data/
+datasets/
+
+# Saved models
+models/

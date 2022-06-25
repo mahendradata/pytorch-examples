@@ -43,7 +43,7 @@ def train(dataloader, model, loss_fn, optimizer):
 
         if batch % 100 == 0:
             loss, current = loss.item(), batch * len(X)
-            print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
+            print(f'loss: {loss:>7f}  [{current:>5d}/{size:>5d}]')
 
 
 def test(dataloader, model, loss_fn):
@@ -59,15 +59,18 @@ def test(dataloader, model, loss_fn):
             correct += (pred.argmax(1) == y).type(torch.float).sum().item()
     test_loss /= num_batches
     correct /= size
-    print(f"Test Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {test_loss:>8f} \n")
+    print(f'Test Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {test_loss:>8f} \n')
 
 
 if __name__ == '__main__':
     # *** Getting the FashionMNIST dataset ***
 
+    datasets_dir = 'datasets'
+    saved_models_path = 'models/fashionmnist.pth'
+
     # Download training data from open datasets.
     training_data = datasets.FashionMNIST(
-        root="data",
+        root=datasets_dir,
         train=True,
         download=True,
         transform=transforms.ToTensor(),
@@ -75,7 +78,7 @@ if __name__ == '__main__':
 
     # Download test data from open datasets.
     test_data = datasets.FashionMNIST(
-        root="data",
+        root=datasets_dir,
         train=False,
         download=True,
         transform=transforms.ToTensor(),
@@ -91,8 +94,8 @@ if __name__ == '__main__':
     test_dataloader = DataLoader(test_data, batch_size=batch_size)
 
     # Get cpu or gpu device for training.
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    print(f"Using {device} device")
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    print(f'Using {device} device')
 
     model = NeuralNetwork().to(device)
     print(model)
@@ -102,28 +105,28 @@ if __name__ == '__main__':
 
     epochs = 5
     for t in range(epochs):
-        print(f"Epoch {t+1}\n-------------------------------")
+        print(f'Epoch {t+1}\n-------------------------------')
         train(train_dataloader, model, loss_fn, optimizer)
         test(test_dataloader, model, loss_fn)
-    print("Done!")
+    print('Done!')
 
-    torch.save(model.state_dict(), "model.pth")
-    print("Saved PyTorch Model State to model.pth")
+    torch.save(model.state_dict(), saved_models_path)
+    print(f'Saved PyTorch Model State to {saved_models_path}')
 
     model = NeuralNetwork()
-    model.load_state_dict(torch.load("model.pth"))
+    model.load_state_dict(torch.load(saved_models_path))
 
     classes = [
-        "T-shirt/top",
-        "Trouser",
-        "Pullover",
-        "Dress",
-        "Coat",
-        "Sandal",
-        "Shirt",
-        "Sneaker",
-        "Bag",
-        "Ankle boot",
+        'T-shirt/top',
+        'Trouser',
+        'Pullover',
+        'Dress',
+        'Coat',
+        'Sandal',
+        'Shirt',
+        'Sneaker',
+        'Bag',
+        'Ankle boot',
     ]
 
     model.eval()

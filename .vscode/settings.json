@@ -1,7 +1,9 @@
 {
     "cSpell.words": [
+        "argmax",
         "Backpropagation",
         "cuda",
+        "fashionmnist",
         "logits",
         "MNIST",
         "optim",
