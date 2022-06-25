@@ -1,0 +1,11 @@
+{
+    "cSpell.words": [
+        "Backpropagation",
+        "cuda",
+        "logits",
+        "MNIST",
+        "optim",
+        "relu",
+        "torchvision"
+    ]
+}
