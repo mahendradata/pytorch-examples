@@ -97,11 +97,16 @@ if __name__ == '__main__':
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     print(f'Using {device} device')
 
-    model = NeuralNetwork().to(device)
+    # *** Preparing the model ***
+
+    model = NeuralNetwork()
+    model = model.to(device)
     print(model)
 
     loss_fn = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=1e-3)
+
+    # *** Training ***
 
     epochs = 5
     for t in range(epochs):
@@ -110,11 +115,17 @@ if __name__ == '__main__':
         test(test_dataloader, model, loss_fn)
     print('Done!')
 
+    # *** Saving the model ***
+
     torch.save(model.state_dict(), saved_models_path)
     print(f'Saved PyTorch Model State to {saved_models_path}')
 
+    # *** Loading the saved model ***
+
     model = NeuralNetwork()
     model.load_state_dict(torch.load(saved_models_path))
+
+    # *** Evaluating the model ***
 
     classes = [
         'T-shirt/top',
