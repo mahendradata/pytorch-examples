@@ -86,6 +86,7 @@ def predict(model, x, y, device):
     model.eval()
     with torch.no_grad():
         x = x.to(device)  # Move to specified device
+        x = torch.reshape(x, (-1, 1, 28, 28))
         pred = model(x)
         predicted, actual = pred[0].argmax(0), y
         print(f'Predicted: "{predicted}", Actual: "{actual}"')
