@@ -30,8 +30,9 @@ def run(model):
 
 
 if __name__ == '__main__':
-    print("BasicNN")
-    run(models.BasicNN())
+    num_class = 10  # Number of classes in the FashionMNIST dataset
+    print("Linear")
+    run(models.Linear(num_class))
     print("RestNet18")
-    run(models.RestNet18())
+    run(models.RestNet18(num_class))
     
