@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 # Ref: https://pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html
 
+from operator import mod
 import torch
 from torch import nn, optim
-from utils import getFashionMNIST, train, eval
+from utils import getFashionMNIST, train, predict
 
 
 
@@ -28,11 +29,11 @@ class BasicNN(nn.Module):
 
 
 if __name__ == '__main__':
-    # Get dataset
-    train_data, test_data, train_loader, test_loader = getFashionMNIST()
-
     # Use GPU if available
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    # Get dataset
+    train_data, test_data, train_loader, test_loader = getFashionMNIST()
 
     # *** Preparing the model ***
     model = BasicNN()
@@ -43,18 +44,9 @@ if __name__ == '__main__':
     optimizer = optim.SGD(model.parameters(), lr=1e-3)
 
     # *** Training ***
-
     epochs = 5
-    for t in range(epochs):
-        print(f'Epoch {t+1}\n-------------------------------')
-        train(train_loader, model, loss_fn, optimizer, device)
-        eval(test_loader, model, loss_fn, device)
-    print('Done!')
+    train(train_loader, test_loader, model, loss_fn, optimizer, epochs, device)
 
-    model.eval()
+    # *** Predict test ***
     x, y = test_data[0][0], test_data[0][1]
-    with torch.no_grad():
-        x = x.to(device)  # Move to specified device
-        pred = model(x)
-        predicted, actual = pred[0].argmax(0), y
-        print(f'Predicted: "{predicted}", Actual: "{actual}"')
+    predict(model, x, y, device)
